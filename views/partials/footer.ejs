@@ -1,0 +1,28 @@
+<script src="https://kit.fontawesome.com/f39ce956bd.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/scrollreveal"></script>
+<script>
+        ScrollReveal().reveal('.indexCards', {
+                interval: 150, mobile: true, viewFactor: 0.3
+        });
+        if (window.location.pathname === "/login") {
+                document.title = "Login";
+                document.getElementById("login").classList.toggle("active");
+        } else if (window.location.pathname === "/register") {
+                document.title = "Sign Up";
+                document.getElementById("register").classList.toggle("active");
+        } else if (window.location.pathname === "/campgrounds/new") {
+                document.title = "Add Campground"
+                document.getElementById("newCampground").classList.toggle("active");
+        } else if (window.location.pathname === "/about") {
+                document.title = "About"
+                document.getElementById("about").classList.toggle("active");
+        } else if (window.location.pathname.startsWith("/campgrounds")) {
+                document.title = "YelpCamp";
+                document.getElementById("home").classList.toggle("active");
+        }
+</script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<%- include('../partials/header')%>
+<header class="jumbotron text-light rounded-0 d-none d-md-block">
+    <div class="container">
+        <div class="jumbotronText text-center">
+            <h1 class="display-2 mt-5 jumbotronText">Campgrounds</h1>
+            <p class="lead jumbotronText">This is our Hand-picked Selection of Campgrounds</p>
+        </div>
+    </div>
+</header>
+
+<div class="row" style="display: flex; flex-wrap: wrap">
+    <div class="col-lg-12">
+        <div class="card-group">
+            <% camps.forEach(function (camp) { %>
+                <div class="col col-md-4 col-sm-6 mt-1">
+                    <div class="card h-100 indexCards">
+                        <a href="/campgrounds/<%= camp._id %>">
+                            <img class="card-img card-img-top" src="<%= camp.image[0] %>" alt="image">
+                        </a>
+                        <div class="card-body">
+                            <p class="float-right lead">$<%= camp.price %>.00/night</p>
+                            <h4 class="card-title"><a href="/campgrounds/<%= camp._id %>"><%= camp.name %></a></h4>
+                            <p class="mt-1 lead">
+                                <% for(let i = 1; i <= camp.rating; i++) {%>
+                                    <i class="star icon text-warning"></i>
+                                <% } %>
+                                <% for(let i = camp.rating + 1; i <= 5; i++) {%>
+                                    <i class="star icon outline text-warning"></i>
+                                <% } %>
+                                <%= camp.comments.length %> Reviews.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+</div>
+<%- include('../partials/footer')%>

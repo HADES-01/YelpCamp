@@ -1,0 +1,105 @@
+<%- include('../partials/header') %>
+<%- include('../partials/flash') %>
+<div class="cont mt-4">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="fixed m-0">
+                <div class="card shadow">
+                    <div class="card-header">
+                        <h1 class="text-center"><%=user.username%></h1>
+                    </div>
+                    <img  class="" src="<%=user.avatar%>"  onerror='this.src="https://umkarsingh.com/wp-content/uploads/2018/10/No-image-available.jpg"' height="256px" width="auto">
+                    <div class="card-body p-0">
+                        <ul class="list-group">
+                            <li class="list-group-item lead"><i class="icon user"></i><span class="font-weight-bold">Name:</span> <%= user.name %></li>
+                            <li class="list-group-item lead"><i class="icon envelope"></i><span class="font-weight-bold"> Email:</span>  <%= user.contact %></li>
+                            <li class="list-group-item lead"><i class="icon phone"></i><span class="font-weight-bold"> Phone:</span> <%= user.phone %></li>
+                            <li class="list-group-item lead"><i class="icon calendar"></i><span class="font-weight-bold"> Joined:</span> <%= user.created.toDateString() %></li>
+                            <% if (currentUser && user._id.equals(currentUser._id)) {%>
+                            <li class="list-group-item lead p-0">
+                                <a href="/user/<%= user._id %>/edit" class="btn btn-warning btn-block m-0"><i class="icon pencil"></i>Edit</a>
+                            </li>
+                            <%}%>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9" >
+            <% if (user.campgrounds.length > 0) {%>
+            <div class="border-0">
+                <div class="card-title text-center display-4">Campgrounds</div>
+                <div class="card-body">
+                    <div class="row" style="display: flex; flex-wrap: wrap;text-align: center">
+                        <% user.campgrounds.forEach(function(camp){%>
+                            <div class="col-lg-6 col-md-12 col-xs-12">
+                                <div class="card shadow m-3">
+                                    <a href="/campgrounds/<%=camp._id%>">
+                                        <img src="<%=camp.image[0]%>" alt="" class="card-img-top">
+                                    </a>
+                                    <div class="card-body">
+                                        <h5 class="card-title"><a href="/campgrounds/<%= camp._id %>"><%=camp.name%></a></h5>
+                                        <p class="lead">
+                                            <% for(let i = 1; i <= camp.rating; i++) {%>
+                                                <i class="star icon text-warning"></i>
+                                            <% } %>
+                                            <% for(let i = camp.rating + 1; i <= 5; i++) {%>
+                                                <i class="star icon outline text-warning"></i>
+                                            <% } %>
+                                            <%=camp.comments.length%> <% if(camp.comments.length === 1) { %>Review <% }else{ %>Reviews<%}%>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+            </div>
+            <%} else {%>
+                <div class="jumbotron">
+                    <div class="container">
+                        <div class="display-4">No Campgrounds To Show</div>
+                        <% if (currentUser && user._id.equals(currentUser.id)) {%>
+                            <p class="lead">
+                                <button class="mt-5 ui button grey">Go Create<i class="icon chevron right"></i></button>
+                            </p>
+                        <%}%>
+                    </div>
+                </div>
+            <%}%>
+            <hr class="my-5">
+            <% if (user.comments.length > 0) {%>
+                <div class="card shadow p-5">
+                    <h3 class="card-title"><i class="icon comments"></i> Comments</h3>
+                    <ol class="list-group mt-3">
+                        <% user.comments.forEach(function(comment){%>
+                            <li class="list-group-item">
+                                <a href="/campgrounds/<%= comment.campground %>"><%= comment.author.username %> commented on <%= comment.campgroundName %></a> - <%=moment(comment.created).fromNow()%>
+                                <p class="float-right">
+                                    <% for(let i = 1; i <= comment.rating; i++) {%>
+                                        <i class="star icon text-warning"></i>
+                                    <% } %>
+                                    <% for(let i = comment.rating + 1; i <= 5; i++) {%>
+                                        <i class="star icon outline text-warning"></i>
+                                    <% } %>
+                                </p>
+                            </li>
+                        <%})%>
+                    </ol>
+                </div>
+            <%} else {%>
+                <div class="jumbotron">
+                    <div class="container">
+                        <div class="display-4">No Comments To Show</div>
+                        <% if (currentUser && user._id.equals(currentUser.id)) {%>
+                            <p class="lead">
+                                <button class="mt-5 ui button grey" href="/campgrounds">Go Comment<i class="icon chevron right"></i></button>
+                            </p>
+                        <%}%>
+                    </div>
+                </div>
+            <%}%>
+        </div>
+    </div>
+</div>
+<%- include('../partials/footer') %>

@@ -1,0 +1,217 @@
+<%- include('../partials/header') %>
+<%- include('../partials/flash') %>
+<div class="cont">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="fixed mt-0">
+                <h4 class="text-center">
+                    <%= campground.name %>
+                </h4>
+                <div class="card shadow mt-4">
+                    <div class="card-header">
+                        <h5 class="text-center">
+                            <i class="icon calendar"></i>
+                            Booking Window
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="lead">
+                            <%= campground.bookingStart.toDateString() %> - <%= campground.bookingEnd.toDateString() %>
+                        </p>
+                    </div>
+                </div>
+                <div class="card shadow mt-4">
+                    <div class="card-header">
+                        <h5 class="text-center">
+                            <i class="icon info"></i>
+                            More Info
+                        </h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <ol class="list-group">
+                            <li class="list-group-item lead">
+                                <i class="icon phone"></i> <%= campground.author.phone %>
+                            </li>
+                            <li class="list-group-item lead">
+                                <i class="icon envelope"></i> <%= campground.author.contact %>
+                            </li>
+                            <li class="list-group-item lead">
+                                <i class="icon map marker alternate"></i> <%= campground.address %>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="card">
+                <div class="bd-example">
+                    <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+                        <% if (campground.image.length > 1) { %>
+                        <ol class="carousel-indicators">
+                            <% for(let i = 0; i < campground.image.length;i++) {%>
+                                <li data-target="#carouselExampleCaptions" data-slide-to="0" class="<%if (i==0) {%> active <%}%>"></li>
+                            <%}%>
+                        </ol>
+                        <% } %>
+                        <div class="carousel-inner">
+                            <% for(let i = 0; i < campground.image.length;i++) {%>
+                                <div class="carousel-item <%if (i==0) {%> active <%}%>">
+                                    <img src="<%=campground.image[i]%>" class="d-block w-100" alt="...">
+                                </div>
+                            <%}%>
+                        </div>
+                        <% if(campground.image.length > 1) { %>
+                            <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        <%}%>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">
+                        <a href=""><%= campground.name %></a>
+                        <p class="float-right">$<%= campground.price %>.00/night</p>
+                        <p class="mt-1 lead">
+                            <% for(let i = 1; i <= campground.rating; i++) {%>
+                                <i class="star icon text-warning"></i>
+                            <% } %>
+                            <% for(let i = campground.rating + 1; i <= 5; i++) {%>
+                                <i class="star icon outline text-warning"></i>
+                            <% } %>
+                            <%= campground.comments.length %> Reviews.
+                        </p>
+                    </h4>
+                    <p class="card-text">
+                        <%- campground.description %>
+                    </p>
+                    <hr class="my-4">
+                    <p class="card-text lead inline">
+                        Submitted By <a href="/user/<%= campground.author._id %>"><%= campground.author.username %></a> on <%= campground.created.toDateString()%>
+                    </p>
+                    <%if (currentUser && campground.author._id.equals(currentUser._id)) {%>
+                        <a href="/campgrounds/<%= campground._id %>/edit" class="btn float-right"><i class="icon pencil"></i></a>
+                        <form class="inline float-right" action="/campgrounds/<%=campground._id%>?_method=DELETE" method="post">
+                            <button type="submit" class="btn delBtn text-20"><i class="icon trash"></i></button>
+                        </form>
+                    <%}%>
+                </div>
+            </div>
+            <div class="card top" style="background: #F7F7F7">
+                <div class="card-header" >
+                    <button href="/campgrounds/<%= campground._id%>/comments/new" class="ui button float-right" data-toggle="collapse" data-target="#commentForm" aria-expanded=false aria-controls="commentForm">
+                        <i class="icon add"></i>Leave a Comment
+                    </button>
+                    <h2 class="inline">Comments</h2>
+                    <div class="collapse mt-3" id="commentForm">
+                        <form class="inline" method="post" action="/campgrounds/<%=campground._id%>/comments">
+                            <div class="form-group">
+                                <textarea class="form-control" rows="5" type="text" name="comment[text]" placeholder="Leave Your Thoughts" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <p class="lead inline">Rating: </p>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="customRadioInline1" name="rating" value="1" class="custom-control-input" required>
+                                    <label class="custom-control-label" for="customRadioInline1">1</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="customRadioInline2" name="rating" value="2" class="custom-control-input">
+                                    <label class="custom-control-label" for="customRadioInline2">2</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="customRadioInline3" name="rating" value="3" class="custom-control-input">
+                                    <label class="custom-control-label" for="customRadioInline3">3</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="customRadioInline4" name="rating" value="4" class="custom-control-input">
+                                    <label class="custom-control-label" for="customRadioInline4">4</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="customRadioInline5" name="rating" value="5" class="custom-control-input">
+                                    <label class="custom-control-label" for="customRadioInline5">5</label>
+                                </div>
+                            </div>
+                            <button class="btn btn-success" type="submit">Submit</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <%if(campground.comments.length > 0) {%>
+                    <ul class="list-unstyled">
+                        <% campground.comments.forEach(function (comment) { %>
+                            <div class="media p-3">
+                                <img src="<%=comment.author.avatar%>" class="mr-3 rounded-circle" alt="..." height="80px" width="80px">
+                                <div class="media-body">
+                                    <p class="float-right">
+                                        <%= moment(campground.created).fromNow() %>
+                                    </p>
+                                    <p class="inline float-right">
+                                        <% for(let i = 1; i <= campground.rating; i++) {%>
+                                            <i class="star icon text-warning"></i>
+                                        <% } %>
+                                        <% for(let i = campground.rating + 1; i <= 5; i++) {%>
+                                            <i class="star icon outline text-warning"></i>
+                                        <% } %>
+                                    </p>
+                                    <h5 class="mt-2"><a href="/user/<%= comment.author.id %>"><%= comment.author.username %></a> </h5>
+                                    <p class="lead mt-1"><%= comment.text%></p>
+                                    <a href="/campgrounds/<%=campground.id%>/comments/<%=comment._id%>/like" class="likeBtn btn" <%if(currentUser && currentUser.likedComments.includes(comment.id)){%> style="color:royalblue;" <%}%>><%=comment.likes%> <i class="icon thumbs up"></i></a>
+                                    <a href="/campgrounds/<%=campground.id%>/comments/<%=comment._id%>/dislike" class="likeBtn btn" style="<%if(currentUser && currentUser.dislikedComments.includes(comment.id)){%> color:red; <%}%>"><%=comment.dislikes%> <i class="icon thumbs down"></i></a>
+                                    <% if (currentUser && comment.author.id.equals(currentUser._id)) {%>
+                                        <form action="/campgrounds/<%=campground._id%>/comments/<%=comment._id%>?_method=delete" method="post" class="inline float-right">
+                                            <button class="ui btn delBtn"type="submit" ><i class="icon trash"></i></button>
+                                        </form>
+                                        <button data-toggle="collapse" data-target="#editComment" aria-controls="editComment" aria-expanded="false" class="delBtn btn float-right">
+                                            <i class="icon pencil"></i>
+                                        </button>
+                                        <div class="collapse mt-3" id="editComment">
+                                            <form class="inline" method="post" action="/campgrounds/<%=campground._id%>/comments/<%=comment.id%>?_method=PUT">
+                                                <div class="form-group">
+                                                    <textarea class="form-control" rows="5" type="text" name="comment[text]" placeholder="Leave Your Thoughts"><%=comment.text%></textarea>
+                                                </div>
+                                                <div class="form-group">
+                                                    <p class="lead inline">Rating: </p>
+                                                    <div class="custom-control custom-radio custom-control-inline">
+                                                        <input type="radio" id="customRadioInline11" name="comment[rating]" value="1" class="custom-control-input" required>
+                                                        <label class="custom-control-label" for="customRadioInline11">1</label>
+                                                    </div>
+                                                    <div class="custom-control custom-radio custom-control-inline">
+                                                        <input type="radio" id="customRadioInline12" name="comment[rating]" value="2" class="custom-control-input">
+                                                        <label class="custom-control-label" for="customRadioInline12">2</label>
+                                                    </div>
+                                                    <div class="custom-control custom-radio custom-control-inline">
+                                                        <input type="radio" id="customRadioInline13" name="comment[rating]" value="3" class="custom-control-input">
+                                                        <label class="custom-control-label" for="customRadioInline13">3</label>
+                                                    </div>
+                                                    <div class="custom-control custom-radio custom-control-inline">
+                                                        <input type="radio" id="customRadioInline14" name="comment[rating]" value="4" class="custom-control-input">
+                                                        <label class="custom-control-label" for="customRadioInline14">4</label>
+                                                    </div>
+                                                    <div class="custom-control custom-radio custom-control-inline">
+                                                        <input type="radio" id="customRadioInline15" name="comment[rating]" value="5" class="custom-control-input">
+                                                        <label class="custom-control-label" for="customRadioInline15">5</label>
+                                                    </div>
+                                                </div>
+                                                <button class="btn btn-success" type="submit">Submit</button>
+                                                <button class="btn btn-secondary" type="reset">Reset</button>
+                                            </form>
+                                        </div>
+                                    <%}%>
+                                </div>
+                            </div>
+                        <% })%>
+                    </ul>
+                    <% } else { %>
+                    <h1 class="display-3 text-center py-5">Nothing to Show Here</h1>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('../partials/footer') %>
