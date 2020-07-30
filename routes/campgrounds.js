@@ -59,14 +59,15 @@ router.get("/new", middleware.isLoggedIn, function (req, res) {
 router.get("/:id", function (req, res) {
     Campground.findById(req.params.id).populate("comments author").exec(function (err, foundCamp) {
         if(err){
-            console.log(err)
+            req.flash("error", "The Campground you were looking for isn't Available.");
+            res.redirect("/campgrounds");
         }
         else{
             let total = 0;
             foundCamp.comments.forEach(function (comment) {
                 total += comment.rating;
             });
-            foundCamp.rating = Math.floor(total / foundCamp.comments.length);
+            foundCamp.rating = Math.ceil(total / foundCamp.comments.length);
             foundCamp.save();
             res.render("campgrounds/show", {campground: foundCamp});
         }

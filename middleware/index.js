@@ -28,13 +28,12 @@ middlewareObj.hasCommented = function(req, res, next) {
     if(req.isAuthenticated()){
         User.findById(req.user.id).populate("comments").exec(function (err, user) {
             if(user.comments.length > 0){
-                user.comments.forEach(function (comment) {
-                   if(String(comment.campground) === String(req.params.id)){
-                       req.flash("error", "You have already Commented, Go and Edit");
-                       res.redirect("/campgrounds/" + req.params.id);
-                   }
-                });
-                next();
+                if(checkComments(user, req.params.id)){
+                    req.flash("error", "You have already Commented, Go and Edit");
+                    res.redirect("/campgrounds/" + req.params.id);
+                } else {
+                    next();
+                }
             } else {
                 next();
             }
@@ -116,7 +115,7 @@ middlewareObj.checkProfileOwner = function(req, res, next) {
             if (err){
                 res.redirect("back");
             } else {
-                if (user.id.equals(req.user.id)) {
+                if (user._id.equals(req.user.id)) {
                     next();
                 } else {
                     req.flash("You don't have the required permission.");
@@ -137,6 +136,15 @@ middlewareObj.isLoggedIn = function(req, res, next) {
         req.flash("error", "You need to be Logged in.")
         res.redirect("/login");
     }
+}
+
+function checkComments(user, id){
+    for(let i = 0; i < user.comments.length; i++) {
+        if (String(user.comments[i].campground) === String(id)) {
+            return true;
+        }
+    }
+    return false;
 }
 
 module.exports = middlewareObj;

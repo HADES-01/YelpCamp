@@ -15,7 +15,7 @@ router.get("/:id" , function(req, res) {
    });
 });
 
-router.get("/:id/edit", middleware.checkProfileOwner,function(req, res){
+router.get("/:id/edit", middleware.checkProfileOwner, function(req, res){
    User.findById(req.params.id, function (err, foundUser) {
        if(err){
            console.log("error");

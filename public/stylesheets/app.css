@@ -1,7 +1,7 @@
 body {
     background: #f5f5f5 !important;
     font-family: "PT Sans", serif;
-    margin-bottom: 60px;
+    padding-bottom: 500px;
 }
 .top {
     margin-top: 40px;
@@ -48,11 +48,11 @@ a {
     font-size: 26px;
 }
 
-.jumbotron {
+.jumbotronEdit {
     background-size: cover;
-    background: url("https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=d9df10d159cc11074d9a7996e8aca442&auto=format&fit=crop&w=1500&q=80") no-repeat center;
     min-height: 350px;
     margin-bottom: 0;
+    background: url("https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=d9df10d159cc11074d9a7996e8aca442&auto=format&fit=crop&w=1500&q=80") no-repeat fixed center;
 }
 
 .jumbotronText {
@@ -66,8 +66,10 @@ a {
 .text-20{
     font-size: 20px;
 }
-.fixed {
-    position: fixed;
+@media only screen and (min-width: 1024px){
+    .fixed {
+        position: fixed;
+    }
 }
 .user-img{
     height: 256px;
@@ -92,4 +94,7 @@ a {
     /* height: 60px; */
     line-height: 60px;
     background: transparent;
+}
+.card-img-top {
+    min-height: 230px;
 }

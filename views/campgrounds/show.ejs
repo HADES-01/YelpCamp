@@ -2,7 +2,7 @@
 <%- include('../partials/flash') %>
 <div class="cont">
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-lg-3 col-md-12">
             <div class="fixed mt-0">
                 <h4 class="text-center">
                     <%= campground.name %>
@@ -43,7 +43,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-9">
+        <div class="col-lg-9 col-md-12">
             <div class="card">
                 <div class="bd-example">
                     <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
@@ -56,8 +56,8 @@
                         <% } %>
                         <div class="carousel-inner">
                             <% for(let i = 0; i < campground.image.length;i++) {%>
-                                <div class="carousel-item <%if (i==0) {%> active <%}%>">
-                                    <img src="<%=campground.image[i]%>" class="d-block w-100" alt="...">
+                                <div class="carousel-item <%if (i==0) {%> active <%}%> ">
+                                    <img src="<%=campground.image[i]%>" class="d-block w-100 vh-100" alt="...">
                                 </div>
                             <%}%>
                         </div>
@@ -151,10 +151,10 @@
                                         <%= moment(campground.created).fromNow() %>
                                     </p>
                                     <p class="inline float-right">
-                                        <% for(let i = 1; i <= campground.rating; i++) {%>
+                                        <% for(let i = 1; i <= comment.rating; i++) {%>
                                             <i class="star icon text-warning"></i>
                                         <% } %>
-                                        <% for(let i = campground.rating + 1; i <= 5; i++) {%>
+                                        <% for(let i = comment.rating + 1; i <= 5; i++) {%>
                                             <i class="star icon outline text-warning"></i>
                                         <% } %>
                                     </p>
