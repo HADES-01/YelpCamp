@@ -61,6 +61,6 @@ app.use("/about", function (req,res) {
 app.use("*", function (req, res) {
     res.render("error404");
 });
-app.listen("3000", function () {
+app.listen(Process.env.PORT || 3000, function () {
     console.log("App is Started at Port 3000");
 });
