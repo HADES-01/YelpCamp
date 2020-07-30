@@ -41,7 +41,7 @@ app.use(methodOverride("_method"));
 app.use(bodyparser.urlencoded({extended : true}));
 app.locals.moment = require("moment");
 mongoose.connect(
-    "mongodb://localhost:27017/YelpCamp",
+    "mongodb+srv://aditya:1eNjpJBKt8Z771gN@yelpcamp.u5orm.gcp.mongodb.net/yelpcamp?retryWrites=true&w=majority",
     {
         useNewUrlParser: true,
         useUnifiedTopology: true
