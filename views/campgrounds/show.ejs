@@ -145,7 +145,7 @@
                     <ul class="list-unstyled">
                         <% campground.comments.forEach(function (comment) { %>
                             <div class="media p-3">
-                                <img src="<%=comment.author.avatar%>" onerror='this.src="https://umkarsingh.com/wp-content/uploads/2018/10/No-image-available.jpg"' class="mr-3 rounded-circle" alt="..." height="80px" width="80px">
+                                <img src="<%=comment.author.avatar%>" class="mr-3 rounded-circle" height="80px" width="80px" onerror='this.src="https://umkarsingh.com/wp-content/uploads/2018/10/No-image-available.jpg"'>
                                 <div class="media-body">
                                     <p class="float-right">
                                         <%= moment(campground.created).fromNow() %>
